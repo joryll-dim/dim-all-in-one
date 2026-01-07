@@ -39,9 +39,10 @@ class DIM_Instagram_API {
         // Start actor run
         $run_url = self::$api_base . "/acts/{$actor_id}/runs?token={$api_key}";
 
+        // Apify expects input to be wrapped in an 'input' field for the actor run
         $run_body = json_encode(array(
             'directUrls' => array("https://www.instagram.com/{$username}/"),
-            'resultsLimit' => $limit,
+            'resultsLimit' => intval($limit),
             'resultsType' => 'posts',
         ));
 
