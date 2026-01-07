@@ -270,22 +270,90 @@ class DFP_Reviews_Settings {
     public function display_shortcode_info() {
         ?>
         <section id="shortcode-info">
-            <?php
-            echo "<h3>Shortcode Information</h3>";
-            echo "Shortcode: [dfp_reviews clinic='' type='']<br>";
-            echo "Parameters:<br>";
-            echo "<ul>";
-            echo "<li><strong>clinic:</strong> The clinic number (1-n). Use '0' for all clinics.</li>";
-            echo "<li><strong>type:</strong> Either 'reviews' for total reviews, 'stars' for average rating, 'total_reviews_all' for total reviews across all clinics, or 'average_stars_all' for average stars across all clinics.</li>";
-            echo "</ul>";
-            echo "Examples:<br>";
-            echo "<ul>";
-            echo "<li>[dfp_reviews clinic='1' type='reviews'] - Displays total reviews for Clinic 1</li>";
-            echo "<li>[dfp_reviews clinic='2' type='stars'] - Displays average stars for Clinic 2</li>";
-            echo "<li>[dfp_reviews clinic='0' type='total_reviews_all'] - Displays total reviews across all clinics</li>";
-            echo "<li>[dfp_reviews clinic='0' type='average_stars_all'] - Displays average stars across all clinics</li>";
-            echo "</ul>";
-            ?>
+            <h3>Shortcode Information</h3>
+
+            <h4>Clinic Stats Shortcode</h4>
+            <p><strong>Shortcode:</strong> <code>[dfp_reviews clinic='' type='']</code></p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><strong>clinic:</strong> The clinic number (1-n). Use '0' for all clinics.</li>
+                <li><strong>type:</strong> Either 'reviews' for total reviews, 'stars' for average rating, 'total_reviews_all' for total reviews across all clinics, or 'average_stars_all' for average stars across all clinics.</li>
+            </ul>
+            <p><strong>Examples:</strong></p>
+            <ul>
+                <li><code>[dfp_reviews clinic='1' type='reviews']</code> - Displays total reviews for Clinic 1</li>
+                <li><code>[dfp_reviews clinic='2' type='stars']</code> - Displays average stars for Clinic 2</li>
+                <li><code>[dfp_reviews clinic='0' type='total_reviews_all']</code> - Displays total reviews across all clinics</li>
+                <li><code>[dfp_reviews clinic='0' type='average_stars_all']</code> - Displays average stars across all clinics</li>
+            </ul>
+
+            <hr style="margin: 30px 0;">
+
+            <h4>Google Review Meta Fields</h4>
+            <p>Use these shortcodes to display individual review meta fields. These work inside WordPress loops or with a specific review ID.</p>
+
+            <table class="widefat" style="margin-top: 15px;">
+                <thead>
+                    <tr>
+                        <th>Shortcode</th>
+                        <th>Description</th>
+                        <th>Example Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>[review_rating]</code></td>
+                        <td>Displays the numeric rating (1-5)</td>
+                        <td><code>[review_rating]</code> or <code>[review_rating id="123"]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>[review_stars]</code></td>
+                        <td>Displays rating as stars (⭐⭐⭐⭐⭐)</td>
+                        <td><code>[review_stars]</code> or <code>[review_stars style="html"]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>[review_author]</code></td>
+                        <td>Displays the reviewer's name</td>
+                        <td><code>[review_author]</code> or <code>[review_author id="123"]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>[review_text]</code></td>
+                        <td>Displays the review content/text</td>
+                        <td><code>[review_text]</code> or <code>[review_text id="123"]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>[review_image]</code></td>
+                        <td>Displays the reviewer's profile image</td>
+                        <td><code>[review_image]</code> or <code>[review_image class="custom-class"]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>[review_link]</code></td>
+                        <td>Creates a link to the Google review</td>
+                        <td><code>[review_link]</code> or <code>[review_link text="View Review"]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>[review_date]</code></td>
+                        <td>Displays the review date</td>
+                        <td><code>[review_date]</code> or <code>[review_date format="M j, Y"]</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p style="margin-top: 15px;"><strong>Note:</strong> Meta field shortcodes can be used:</p>
+            <ul>
+                <li>Inside a WordPress loop of Google Reviews posts (no ID needed)</li>
+                <li>Anywhere with a specific review ID: <code>[review_rating id="123"]</code></li>
+                <li>In JetEngine Listing items (will automatically use the current post)</li>
+            </ul>
+
+            <p><strong>Common Attributes:</strong></p>
+            <ul>
+                <li><strong>id</strong> - Specific review post ID (optional, uses current post if in loop)</li>
+                <li><strong>class</strong> - Custom CSS class (for image and link)</li>
+                <li><strong>format</strong> - Date format for <code>[review_date]</code> (default: "F j, Y")</li>
+                <li><strong>text</strong> - Link text for <code>[review_link]</code> (default: "Read on Google")</li>
+                <li><strong>style</strong> - Star style for <code>[review_stars]</code> ("unicode" or "html")</li>
+            </ul>
         </section>
         <?php
     }
