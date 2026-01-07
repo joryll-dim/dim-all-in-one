@@ -14,8 +14,51 @@ defined('ABSPATH') or die('No direct script access allowed');
     <form method="post" action="options.php">
         <?php
         settings_fields('dim_instagram_settings');
-        do_settings_sections('dim-instagram-settings');
+
+        // Output only the settings sections (not manual sync)
+        global $wp_settings_sections, $wp_settings_fields;
+
+        if (isset($wp_settings_sections['dim-instagram-settings'])) {
+            foreach ((array) $wp_settings_sections['dim-instagram-settings'] as $section) {
+                // Skip the manual sync section
+                if ($section['id'] === 'dim_instagram_manual_section') {
+                    continue;
+                }
+
+                if ($section['title']) {
+                    echo "<h2>{$section['title']}</h2>\n";
+                }
+
+                if ($section['callback']) {
+                    call_user_func($section['callback'], $section);
+                }
+
+                if (isset($wp_settings_fields['dim-instagram-settings'][$section['id']])) {
+                    echo '<table class="form-table" role="presentation">';
+                    do_settings_fields('dim-instagram-settings', $section['id']);
+                    echo '</table>';
+                }
+            }
+        }
+
         submit_button('Save Settings');
         ?>
     </form>
+
+    <?php
+    // Output manual sync and shortcode sections separately (outside the settings form)
+    if (isset($wp_settings_sections['dim-instagram-settings'])) {
+        foreach ((array) $wp_settings_sections['dim-instagram-settings'] as $section) {
+            if ($section['id'] === 'dim_instagram_manual_section' || $section['id'] === 'dim_instagram_shortcode_section') {
+                if ($section['title']) {
+                    echo "<h2>{$section['title']}</h2>\n";
+                }
+
+                if ($section['callback']) {
+                    call_user_func($section['callback'], $section);
+                }
+            }
+        }
+    }
+    ?>
 </div>
