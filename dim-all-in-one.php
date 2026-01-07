@@ -17,6 +17,14 @@ require_once DIM_PATH . 'includes/module-manager.php';
 require_once DIM_PATH . 'includes/module-loader.php';
 require_once DIM_PATH . 'includes/admin-page.php';
 
-// Update checker has been moved to a must-use plugin (mu-plugin/dim-update-checker.php)
-// This ensures update checking works even when this plugin is deactivated
-// See MU-PLUGIN-INSTALL.md for installation instructions
+// Initialize Plugin Update Checker (for when plugin is active)
+// For maximum reliability, also install the mu-plugin (see MU-PLUGIN-INSTALL.md)
+require DIM_PATH . 'lib/plugin-update-checker.php';
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$dimUpdateChecker = PucFactory::buildUpdateChecker(
+    'https://github.com/joryll-dim/dim-all-in-one',
+    __FILE__,
+    'dim-all-in-one'
+);
+$dimUpdateChecker->setBranch('main');
