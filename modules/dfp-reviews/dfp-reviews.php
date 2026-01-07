@@ -40,12 +40,18 @@ if (file_exists($autoload_path)) {
 }
 
 /**
- * Module initialization (runs activation logic)
+ * Module initialization
+ * Run activation setup on 'init' hook (not immediately)
  */
 function dfp_reviews_module_init() {
-    // Run activation setup (database tables, etc.)
-    require_once plugin_dir_path(__FILE__) . 'includes/class-activator.php';
-    DFP_Reviews_Activator::activate();
+    // Only run activation setup once when module is first enabled
+    if (get_option('dfp_reviews_module_activated') !== 'yes') {
+        add_action('init', function() {
+            require_once plugin_dir_path(__FILE__) . 'includes/class-activator.php';
+            DFP_Reviews_Activator::activate();
+            update_option('dfp_reviews_module_activated', 'yes');
+        }, 5); // Priority 5 to run before CPT registration at priority 10
+    }
 }
 dfp_reviews_module_init();
 
