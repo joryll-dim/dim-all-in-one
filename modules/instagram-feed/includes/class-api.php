@@ -189,6 +189,29 @@ class DIM_Instagram_API {
             // Prepare post title (first 50 chars of caption or "Instagram Post")
             $post_title = !empty($caption) ? wp_trim_words($caption, 10, '...') : 'Instagram Post';
 
+            // Download image to WordPress media library
+            $local_image_id = 0;
+            $local_image_url = $image_url; // Fallback to original URL
+
+            if (!empty($image_url)) {
+                // Check if we already downloaded this image
+                if (!empty($existing_posts)) {
+                    $existing_image_id = get_post_thumbnail_id($existing_posts[0]->ID);
+                    if ($existing_image_id) {
+                        $local_image_id = $existing_image_id;
+                        $local_image_url = wp_get_attachment_url($local_image_id);
+                    }
+                }
+
+                // Download image if we don't have it yet
+                if (empty($local_image_id)) {
+                    $local_image_id = self::download_image($image_url, $post_title);
+                    if ($local_image_id) {
+                        $local_image_url = wp_get_attachment_url($local_image_id);
+                    }
+                }
+            }
+
             $post_args = array(
                 'post_type' => 'instagram_posts',
                 'post_title' => sanitize_text_field($post_title),
@@ -198,7 +221,7 @@ class DIM_Instagram_API {
                     'post_id' => sanitize_text_field($post_id),
                     'post_url' => esc_url_raw($post_data['url']),
                     'caption' => sanitize_textarea_field($caption),
-                    'image_url' => esc_url_raw($image_url),
+                    'image_url' => esc_url_raw($local_image_url),
                     'media_type' => sanitize_text_field($media_type),
                     'likes_count' => $likes_count,
                     'comments_count' => $comments_count,
@@ -211,12 +234,17 @@ class DIM_Instagram_API {
             if (!empty($existing_posts)) {
                 // Update existing post
                 $post_args['ID'] = $existing_posts[0]->ID;
-                wp_update_post($post_args);
+                $wp_post_id = wp_update_post($post_args);
                 $updated++;
             } else {
                 // Create new post
-                wp_insert_post($post_args);
+                $wp_post_id = wp_insert_post($post_args);
                 $imported++;
+            }
+
+            // Set featured image if we downloaded one
+            if ($local_image_id && $wp_post_id) {
+                set_post_thumbnail($wp_post_id, $local_image_id);
             }
         }
 
@@ -229,6 +257,59 @@ class DIM_Instagram_API {
             'skipped' => $skipped,
             'total' => count($posts),
         );
+    }
+
+    /**
+     * Download image from URL to WordPress media library
+     *
+     * @param string $image_url The image URL to download
+     * @param string $title Post title for the attachment
+     * @return int|false Attachment ID on success, false on failure
+     */
+    private static function download_image($image_url, $title) {
+        if (empty($image_url)) {
+            return false;
+        }
+
+        // Include required WordPress files
+        require_once(ABSPATH . 'wp-admin/includes/media.php');
+        require_once(ABSPATH . 'wp-admin/includes/file.php');
+        require_once(ABSPATH . 'wp-admin/includes/image.php');
+
+        // Download image using WordPress HTTP API with no-referrer header
+        $temp_file = download_url($image_url);
+
+        if (is_wp_error($temp_file)) {
+            error_log('Instagram Feed: Failed to download image: ' . $temp_file->get_error_message());
+            return false;
+        }
+
+        // Get the file extension
+        $extension = pathinfo(parse_url($image_url, PHP_URL_PATH), PATHINFO_EXTENSION);
+        if (empty($extension)) {
+            $extension = 'jpg';
+        }
+
+        // Prepare file array
+        $file_array = array(
+            'name' => sanitize_file_name($title . '.' . $extension),
+            'tmp_name' => $temp_file,
+        );
+
+        // Upload to media library
+        $attachment_id = media_handle_sideload($file_array, 0, $title);
+
+        // Clean up temp file
+        if (file_exists($temp_file)) {
+            @unlink($temp_file);
+        }
+
+        if (is_wp_error($attachment_id)) {
+            error_log('Instagram Feed: Failed to sideload image: ' . $attachment_id->get_error_message());
+            return false;
+        }
+
+        return $attachment_id;
     }
 
     /**
