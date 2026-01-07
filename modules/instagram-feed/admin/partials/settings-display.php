@@ -20,8 +20,8 @@ defined('ABSPATH') or die('No direct script access allowed');
 
         if (isset($wp_settings_sections['dim-instagram-settings'])) {
             foreach ((array) $wp_settings_sections['dim-instagram-settings'] as $section) {
-                // Skip the manual sync section
-                if ($section['id'] === 'dim_instagram_manual_section') {
+                // Skip the manual sync and shortcode sections (they appear at the bottom)
+                if ($section['id'] === 'dim_instagram_manual_section' || $section['id'] === 'dim_instagram_shortcode_section') {
                     continue;
                 }
 
