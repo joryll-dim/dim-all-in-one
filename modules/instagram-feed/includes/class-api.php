@@ -164,7 +164,21 @@ class DIM_Instagram_API {
             ));
 
             $caption = isset($post_data['caption']) ? $post_data['caption'] : '';
-            $image_url = isset($post_data['displayUrl']) ? $post_data['displayUrl'] : '';
+
+            // Try multiple possible field names for image URL
+            $image_url = '';
+            if (!empty($post_data['displayUrl'])) {
+                $image_url = $post_data['displayUrl'];
+            } elseif (!empty($post_data['thumbnailUrl'])) {
+                $image_url = $post_data['thumbnailUrl'];
+            } elseif (!empty($post_data['imgUrl'])) {
+                $image_url = $post_data['imgUrl'];
+            } elseif (!empty($post_data['imageUrl'])) {
+                $image_url = $post_data['imageUrl'];
+            } elseif (!empty($post_data['videoUrl'])) {
+                $image_url = $post_data['videoUrl'];
+            }
+
             $media_type = isset($post_data['type']) ? $post_data['type'] : 'Image';
             $likes_count = isset($post_data['likesCount']) ? intval($post_data['likesCount']) : 0;
             $comments_count = isset($post_data['commentsCount']) ? intval($post_data['commentsCount']) : 0;

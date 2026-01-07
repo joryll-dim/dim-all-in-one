@@ -110,7 +110,7 @@ class DIM_Instagram_Shortcode {
                 <div class="dim-instagram-post">
                     <a href="<?php echo esc_url($post_url); ?>" target="_blank" rel="noopener noreferrer">
                         <?php if ($image_url): ?>
-                            <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr(wp_trim_words($caption, 10, '...')); ?>" loading="lazy">
+                            <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr(wp_trim_words($caption, 10, '...')); ?>" loading="lazy" referrerpolicy="no-referrer" crossorigin="anonymous">
                         <?php endif; ?>
                         <?php if ($show_caption && !empty($caption)): ?>
                             <div class="dim-instagram-overlay">
