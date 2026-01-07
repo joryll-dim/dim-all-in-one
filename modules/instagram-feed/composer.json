@@ -1,0 +1,19 @@
+{
+    "name": "dim/instagram-feed",
+    "description": "Instagram Feed module for DIM All-in-One plugin",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Dental Funnels The Platform"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "DIM\\InstagramFeed\\": "includes/"
+        }
+    }
+}

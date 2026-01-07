@@ -1,0 +1,40 @@
+/**
+ * Admin-specific styles for Instagram Feed Module
+ */
+
+#shortcode-info {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 4px;
+}
+
+#shortcode-info h4 {
+    margin-top: 0;
+    color: #23282d;
+}
+
+#shortcode-info table {
+    margin-top: 15px;
+}
+
+#shortcode-info table th {
+    background: #f1f1f1;
+    font-weight: 600;
+}
+
+#shortcode-info code {
+    background: #f1f1f1;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+#shortcode-info ul {
+    margin-left: 20px;
+}
+
+.dim-instagram-settings .notice {
+    margin: 20px 0;
+}
