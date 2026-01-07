@@ -60,7 +60,19 @@ class DIM_Instagram_API {
         $run_body_response = json_decode(wp_remote_retrieve_body($run_response), true);
 
         if (!isset($run_body_response['data']['id'])) {
-            return new WP_Error('run_failed', 'Failed to start Apify actor run.');
+            $error_message = 'Failed to start Apify actor run.';
+
+            // Add more details if available
+            if (isset($run_body_response['error'])) {
+                $error_message .= ' Error: ' . $run_body_response['error']['message'];
+            } elseif (is_array($run_body_response)) {
+                $error_message .= ' Response: ' . print_r($run_body_response, true);
+            } else {
+                $response_code = wp_remote_retrieve_response_code($run_response);
+                $error_message .= ' HTTP Code: ' . $response_code;
+            }
+
+            return new WP_Error('run_failed', $error_message);
         }
 
         $run_id = $run_body_response['data']['id'];
