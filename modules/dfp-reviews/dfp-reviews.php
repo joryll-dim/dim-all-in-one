@@ -40,20 +40,16 @@ if (file_exists($autoload_path)) {
 }
 
 /**
- * Module initialization
- * Run activation setup on 'init' hook (not immediately)
+ * One-time setup on first module enable
+ * This runs on 'init' hook to ensure WordPress is fully loaded
  */
-function dfp_reviews_module_init() {
-    // Only run activation setup once when module is first enabled
+add_action('init', function() {
     if (get_option('dfp_reviews_module_activated') !== 'yes') {
-        add_action('init', function() {
-            require_once plugin_dir_path(__FILE__) . 'includes/class-activator.php';
-            DFP_Reviews_Activator::activate();
-            update_option('dfp_reviews_module_activated', 'yes');
-        }, 5); // Priority 5 to run before CPT registration at priority 10
+        require_once plugin_dir_path(__FILE__) . 'includes/class-activator.php';
+        DFP_Reviews_Activator::activate();
+        update_option('dfp_reviews_module_activated', 'yes');
     }
-}
-dfp_reviews_module_init();
+}, 5); // Priority 5 to run before CPT registration at priority 10
 
 /**
  * The core plugin class
