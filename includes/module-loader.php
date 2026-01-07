@@ -2,6 +2,10 @@
 if (!defined('ABSPATH')) exit;
 
 add_action('plugins_loaded', function () {
+    // Kill switch: disable all modules if constant is defined
+    if (defined('DIM_KILL_SWITCH') && DIM_KILL_SWITCH === true) {
+        return;
+    }
 
     $modules = DIM_Module_Manager::get_all_modules();
 
