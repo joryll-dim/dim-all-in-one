@@ -1,0 +1,14 @@
+{
+    "name": "dental-funnels/dim-all-in-one",
+    "description": "DIM All-in-One Plugin - Consolidates multiple WordPress plugins into one manageable system",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=8.0",
+        "yahnis-elsts/plugin-update-checker": "^5.4"
+    },
+    "autoload": {
+        "classmap": [
+            "includes/"
+        ]
+    }
+}

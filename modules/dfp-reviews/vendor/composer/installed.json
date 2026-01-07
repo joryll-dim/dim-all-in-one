@@ -1,0 +1,62 @@
+{
+    "packages": [
+        {
+            "name": "outscraper/outscraper",
+            "version": "v4.2.2",
+            "version_normalized": "4.2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/outscraper/outscraper-php.git",
+                "reference": "026d8918d6234e7d3bbe94220ea9650707a421ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/outscraper/outscraper-php/zipball/026d8918d6234e7d3bbe94220ea9650707a421ce",
+                "reference": "026d8918d6234e7d3bbe94220ea9650707a421ce",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "time": "2025-07-21T08:55:15+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "outscraper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Outscraper",
+                    "email": "support@outscraper.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP bindings for the Outscraper API",
+            "homepage": "https://outscraper.com/",
+            "keywords": [
+                "Google Maps scraper",
+                "Google Reviews scraper",
+                "extractor",
+                "google",
+                "google maps",
+                "outscraper",
+                "scrape google maps",
+                "scraper",
+                "webscraper"
+            ],
+            "support": {
+                "issues": "https://github.com/outscraper/outscraper-php/issues",
+                "source": "https://github.com/outscraper/outscraper-php/tree/v4.2.2"
+            },
+            "install-path": "../outscraper/outscraper"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}

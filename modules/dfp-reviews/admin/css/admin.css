@@ -1,0 +1,387 @@
+/* ============================================
+   DFP Reviews Admin Styles
+   ============================================ */
+
+/* PHASE 1: Critical Fixes - Layout & Centering */
+
+/* Fix: Scope form selector to prevent centering issues */
+#dfp-reviews-form {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 30px;
+}
+
+/* Fix: Remove flex from .wrap to prevent conflicts with WordPress admin notices */
+.wrap {
+    /* Removed display: flex to fix centering bug with admin notices */
+    position: relative;
+}
+
+/* Fix: Constrain page width on large screens (4K+) and align left */
+.settings_page_dfp-reviews-settings .wrap {
+    max-width: 1400px;
+    margin: 0;
+    padding: 0 20px;
+}
+
+/* Fix: Ensure WordPress admin notices display correctly */
+.wrap > .notice,
+.wrap > .updated,
+.wrap > .error,
+.wrap > div[id^="setting-error-"] {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+/* Page title - full width */
+h1#dfp_title {
+    width: 100%;
+    margin-bottom: 35px;
+}
+
+/* Fix: Scope table selector to main form only */
+#dfp-reviews-form > table:first-of-type {
+    width: 100%;
+    background: #f0f0f1;
+    padding: 0px;
+    margin-bottom: 0px;
+    border: none;
+}
+
+#dfp-reviews-form .form-table:first-of-type tbody {
+    background: #f0f0f1;
+}
+
+/* Fix: Remove flex from form-table - keep WordPress standard table layout */
+table.form-table {
+    width: 100%;
+    max-width: 600px;
+    background: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 0px;
+    border: 1px solid #e5e5e5;
+    display: table; /* Fixed: was display: flex which broke layout */
+}
+
+/* ============================================
+   PHASE 2: UI Improvements
+   ============================================ */
+
+/* Content wrapper for side-by-side layout */
+.dfp-reviews-content-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+/* Headings */
+h2 {
+    text-align: center;
+    margin: 0px;
+}
+
+.dfp-reviews-info h2,
+.dfp-reviews-total-stats h2,
+.dfp-reviews-cron-log h2 {
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* ============================================
+   Clinic Sections
+   ============================================ */
+
+#clinics-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.clinic-section {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #fff;
+    position: relative;
+    border-radius: 5px;
+}
+
+.clinic-section h2 {
+    margin-top: 0;
+}
+
+.clinic-section .form-table {
+    background: #fff;
+}
+
+.clinic-section .form-table tbody {
+    background: #fff;
+}
+
+/* Remove Clinic Button */
+.remove-clinic,
+.clinic-section .remove-clinic {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    margin: 0;
+    padding: 5px 10px;
+    z-index: 10;
+    background-color: #dc3232;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 13px;
+    transition: background-color 0.3s ease;
+}
+
+.remove-clinic:hover,
+.clinic-section .remove-clinic:hover {
+    background-color: #a00;
+    color: #fff;
+}
+
+/* ============================================
+   Buttons & Forms
+   ============================================ */
+
+/* Button Container - Save Settings & Add Clinic */
+.button-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    align-items: center;
+    width: 100%;
+}
+
+.button-container .button,
+.button-container input[type="submit"] {
+    margin: 0;
+}
+
+/* Update Data Now Form */
+.button-container-form {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+}
+
+.button-container-form label {
+    font-weight: 600;
+    margin: 0;
+}
+
+.button-container-form select {
+    min-width: 200px;
+}
+
+.button-container-form .description {
+    flex-basis: 100%;
+    margin-top: 5px;
+    font-style: italic;
+    color: #646970;
+}
+
+/* Submit Buttons */
+p.submit {
+    text-align: left;
+    width: 100%;
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
+/* ============================================
+   Statistics & Information Sections
+   ============================================ */
+
+/* Total Stats Section */
+.dfp-reviews-total-stats {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.dfp-reviews-total-stats table.form-table {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Cron Log Section */
+.dfp-reviews-cron-log {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.dfp-reviews-cron-log table {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.dfp-reviews-cron-log p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Shortcode Info Section */
+.dfp-reviews-info {
+    width: 100%;
+    max-width: 600px;
+    border: 1px solid rgba(51, 51, 51, 0.28);
+    padding: 20px;
+    border-radius: 10px;
+    background: #fff;
+    margin-top: 30px;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media screen and (max-width: 782px) {
+    table.form-table {
+        max-width: 100%;
+    }
+
+    #clinics-container {
+        flex-direction: column;
+    }
+
+    .clinic-section {
+        width: 100%;
+    }
+
+    .dfp-reviews-content-wrapper {
+        flex-direction: column;
+    }
+
+    .dfp-reviews-total-stats,
+    .dfp-reviews-info {
+        max-width: 100%;
+    }
+
+    .button-container-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .button-container-form select {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .button-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .button-container .button,
+    .button-container input[type="submit"] {
+        width: 100%;
+    }
+
+    .remove-clinic,
+    .clinic-section .remove-clinic {
+        position: static;
+        margin-top: 10px;
+        display: inline-block;
+    }
+}
+
+/* ============================================
+   WordPress Admin Compatibility
+   ============================================ */
+
+/* Ensure proper stacking context */
+.wrap {
+    z-index: 1;
+}
+
+/* Fix notice z-index */
+.wrap > .notice,
+.wrap > .updated,
+.wrap > .error {
+    z-index: 10;
+    position: relative;
+}
+
+/* Ensure forms don't overlap notices */
+#dfp-reviews-form {
+    z-index: 1;
+    position: relative;
+}
+
+/* ============================================
+   Loading States & Button Feedback
+   ============================================ */
+
+/* Loading state for buttons */
+.button.is-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+    cursor: wait;
+}
+
+.button.is-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border: 2px solid currentColor;
+    border-color: #fff #fff #fff transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+/* Loading animation */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Form submitting state */
+.form-submitting {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Readonly field styling */
+input[readonly] {
+    background-color: #f6f7f7;
+    border-color: #dcdcde;
+    cursor: not-allowed;
+}

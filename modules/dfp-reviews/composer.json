@@ -1,0 +1,5 @@
+{
+    "require": {
+        "outscraper/outscraper": "^4.0"
+    }
+}

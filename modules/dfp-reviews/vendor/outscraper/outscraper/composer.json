@@ -1,0 +1,35 @@
+{
+    "name": "outscraper/outscraper",
+    "description": "PHP bindings for the Outscraper API",
+    "require": {
+        "php": ">=7.4"
+    },
+    "keywords": [
+        "outscraper",
+        "google Maps",
+        "google maps scraper",
+        "google reviews scraper",
+        "scrape google maps",
+        "google",
+        "scraper",
+        "extractor",
+        "webscraper"
+    ],
+    "homepage": "https://outscraper.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Outscraper",
+            "role": "Developer",
+            "email": "support@outscraper.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/outscraper/outscraper-php/issues"
+    },
+    "autoload": {
+        "files": [
+            "outscraper.php"
+        ]
+    }
+}
