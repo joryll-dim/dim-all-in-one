@@ -28,6 +28,7 @@ class DFP_Reviews {
 
     private function load_dependencies() {
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-loader.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-cpt.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-api.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-cron.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-shortcode.php';
@@ -42,6 +43,15 @@ class DFP_Reviews {
 
     private function define_admin_hooks() {
         $plugin_admin = new DFP_Reviews_Admin($this->get_plugin_name(), $this->get_version());
+
+        // Register custom post type
+        $this->loader->add_action('init', 'DFP_Reviews_CPT', 'register');
+        $this->loader->add_action('init', 'DFP_Reviews_CPT', 'register_meta_fields');
+
+        // Add custom columns to admin
+        $this->loader->add_filter('manage_google_reviews_posts_columns', 'DFP_Reviews_CPT', 'add_custom_columns');
+        $this->loader->add_action('manage_google_reviews_posts_custom_column', 'DFP_Reviews_CPT', 'populate_custom_columns', 10, 2);
+        $this->loader->add_filter('manage_edit-google_reviews_sortable_columns', 'DFP_Reviews_CPT', 'make_columns_sortable');
 
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');

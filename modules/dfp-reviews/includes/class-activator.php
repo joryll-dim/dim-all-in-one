@@ -9,6 +9,14 @@ defined('ABSPATH') or die('No direct script access allowed');
 class DFP_Reviews_Activator {
 
     public static function activate() {
+        // Register custom post type
+        require_once DFP_REVIEWS_PLUGIN_DIR . 'includes/class-cpt.php';
+        DFP_Reviews_CPT::register();
+        DFP_Reviews_CPT::register_meta_fields();
+
+        // Flush rewrite rules to ensure CPT permalinks work
+        flush_rewrite_rules();
+
         // Initialize default options
         if (!get_option('dfp_reviews_clinic_count')) {
             update_option('dfp_reviews_clinic_count', 1);

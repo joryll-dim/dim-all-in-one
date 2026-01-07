@@ -133,21 +133,24 @@ class DFP_Reviews_API {
     }
 
     private static function create_testimonial($testimonial_data) {
-        $existing_testimonial = get_posts(array(
-            'post_type' => 'testimonials',
+        // Check if review already exists
+        $existing_review = get_posts(array(
+            'post_type' => 'google_reviews',
             'meta_key' => 'review_id',
             'meta_value' => $testimonial_data['review_id'],
             'post_status' => 'any',
             'posts_per_page' => 1,
         ));
 
-        if (!empty($existing_testimonial)) {
-            return false;
+        if (!empty($existing_review)) {
+            return false; // Review already exists
         }
 
-        $testimonial_post = array(
-            'post_type' => 'testimonials',
+        // Create new Google Review post
+        $review_post = array(
+            'post_type' => 'google_reviews',
             'post_title' => $testimonial_data['author_title'],
+            'post_content' => $testimonial_data['review_text'],
             'post_status' => 'publish',
             'post_date' => date('Y-m-d H:i:s', $testimonial_data['review_timestamp']),
             'meta_input' => array(
@@ -157,17 +160,18 @@ class DFP_Reviews_API {
                 'author_image' => $testimonial_data['author_image'],
                 'review_text' => $testimonial_data['review_text'],
                 'review_link' => $testimonial_data['review_link'],
-                'review_time' => $testimonial_data['review_datetime_utc'],
+                'review_timestamp' => $testimonial_data['review_timestamp'],
+                'review_datetime_utc' => $testimonial_data['review_datetime_utc'],
                 'source' => $testimonial_data['source'],
                 'clinic_id' => $testimonial_data['clinic_id']
             ),
         );
 
-        $result = wp_insert_post($testimonial_post);
+        $result = wp_insert_post($review_post);
 
         // Check for errors
         if (is_wp_error($result)) {
-            error_log('DFP Reviews: Failed to create testimonial post: ' . $result->get_error_message());
+            error_log('DFP Reviews: Failed to create review post: ' . $result->get_error_message());
             return false;
         }
 

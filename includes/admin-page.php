@@ -26,6 +26,7 @@ add_action('wp_ajax_dim_dismiss_test_module_notice', function () {
 
 function dim_admin_page() {
     $redirect_after_save = false;
+    $kill_switch_active = defined('DIM_KILL_SWITCH') && DIM_KILL_SWITCH === true;
 
     if (isset($_POST['dim_save'])) {
         check_admin_referer('dim_save_modules');
@@ -50,6 +51,24 @@ function dim_admin_page() {
     <div class="wrap">
         <h1>DIM Modules</h1>
 
+        <?php if ($kill_switch_active): ?>
+        <div class="notice notice-error" style="border-left-color: #dc3232; padding: 15px; margin: 20px 0;">
+            <p style="margin: 0; font-size: 14px;">
+                <span class="dashicons dashicons-warning" style="color: #dc3232; font-size: 20px; vertical-align: middle;"></span>
+                <strong style="color: #dc3232;">EMERGENCY KILL SWITCH ACTIVE</strong> - All modules are currently disabled.
+            </p>
+            <p style="margin: 10px 0 0 0; font-size: 13px;">
+                The constant <code>DIM_KILL_SWITCH</code> is defined in your <code>wp-config.php</code> file.
+                To re-enable modules, remove or comment out this line and refresh the page.
+            </p>
+            <p style="margin: 10px 0 0 0; font-size: 12px; color: #666;">
+                <a href="<?php echo esc_url(admin_url('admin.php?page=dim-plugin')); ?>" style="text-decoration: none;">
+                    📖 View KILL-SWITCH.md for instructions
+                </a>
+            </p>
+        </div>
+        <?php endif; ?>
+
         <form method="post">
             <?php wp_nonce_field('dim_save_modules'); ?>
 
@@ -63,19 +82,23 @@ function dim_admin_page() {
                 </thead>
                 <tbody>
 
-                <?php foreach ($modules as $key => $module): 
+                <?php foreach ($modules as $key => $module):
                     $size = file_exists($module['file'])
                         ? round(filesize($module['file']) / 1024, 2) . ' KB'
                         : '-';
                 ?>
-                    <tr>
+                    <tr<?php echo $kill_switch_active ? ' style="opacity: 0.5;"' : ''; ?>>
                         <td><?php echo esc_html($module['label']); ?></td>
                         <td>
                             <label class="dim-switch">
                                 <input type="checkbox" name="modules[<?php echo esc_attr($key); ?>]"
-                                    <?php checked($enabled[$key] ?? false); ?>>
+                                    <?php checked($enabled[$key] ?? false); ?>
+                                    <?php disabled($kill_switch_active); ?>>
                                 <span class="slider"></span>
                             </label>
+                            <?php if ($kill_switch_active): ?>
+                                <span style="font-size: 11px; color: #dc3232; margin-left: 10px;">Disabled by kill switch</span>
+                            <?php endif; ?>
                         </td>
                         <td><?php echo esc_html($size); ?></td>
                     </tr>
@@ -85,7 +108,14 @@ function dim_admin_page() {
             </table>
 
             <p>
-                <button class="button button-primary" name="dim_save">Save Changes</button>
+                <button class="button button-primary" name="dim_save" <?php disabled($kill_switch_active); ?>>
+                    Save Changes
+                </button>
+                <?php if ($kill_switch_active): ?>
+                    <span style="color: #dc3232; margin-left: 10px; font-size: 13px;">
+                        Changes cannot be saved while kill switch is active
+                    </span>
+                <?php endif; ?>
             </p>
         </form>
     </div>
