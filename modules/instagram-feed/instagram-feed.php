@@ -27,16 +27,10 @@ if (!defined('DIM_INSTAGRAM_PLUGIN_URL')) {
     define('DIM_INSTAGRAM_PLUGIN_URL', plugin_dir_url(__FILE__));
 }
 
-// Include Composer autoloader for dependencies
+// Include Composer autoloader if it exists (optional - no external dependencies required)
 $autoload_path = plugin_dir_path(__FILE__) . 'vendor/autoload.php';
 if (file_exists($autoload_path)) {
     require_once($autoload_path);
-} else {
-    // Show admin notice if dependencies are missing
-    add_action('admin_notices', function() {
-        echo '<div class="notice notice-error"><p><strong>Instagram Feed Module:</strong> Missing dependencies. Please run <code>composer install</code> in the module directory.</p></div>';
-    });
-    return;
 }
 
 /**
