@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) exit;
 
 define('DIM_PATH', plugin_dir_path(__FILE__));
 define('DIM_URL', plugin_dir_url(__FILE__));
-define('DIM_VERSION', '0.4.7');
+define('DIM_VERSION', '0.4.8');
 
 require_once DIM_PATH . 'includes/module-manager.php';
 require_once DIM_PATH . 'includes/module-loader.php';
